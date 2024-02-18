@@ -1,3 +1,23 @@
 
 7
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
+7
+HELP.md,1\a\1a273f73b7a477b0745593641bd708a6182c7ad5
+c
+3src/main/java/br/com/fiap/auth/AuthApplication.java,b\8\b84d2a0589650ec81ec6d7fd32c1016a89876987
+d
+4src/main/java/br/com/fiap/auth/config/AppConfig.java,7\c\7ce1201a9cd4f4c8b1da5604e3d4e654f12b3cea
+t
+Dsrc/main/java/br/com/fiap/auth/config/AuthorizationServerConfig.java,9\b\9b6d975ac57e350fc4c13bd840b720bb107a8c37
+i
+9src/main/java/br/com/fiap/auth/config/SecurityConfig.java,b\8\b8cc716ed9b4066412403bb708f6eedd96adc041
+m
+=src/main/java/br/com/fiap/auth/controller/UserController.java,f\1\f1a77080f334c4f9a39597cac0cca371c0e47564
+p
+@src/main/java/br/com/fiap/auth/feignClients/UserFeignClient.java,e\9\e9f9bc7556db8108deb83e6bdb856596504af7a3
+^
+.src/main/java/br/com/fiap/auth/model/Role.java,f\2\f269d47b6f933328b3446d4c728586a9482cc6ea
+^
+.src/main/java/br/com/fiap/auth/model/User.java,1\0\102085d45482ef975e7dd4a2544695baadbd7dd3
+h
+8src/main/java/br/com/fiap/auth/services/UserService.java,c\f\cfe5aa7aab9f5c8ab93ea525c11726607d26c587
