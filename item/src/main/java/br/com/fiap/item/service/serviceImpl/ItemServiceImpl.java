@@ -4,9 +4,11 @@ import br.com.fiap.item.model.ItemModel;
 import br.com.fiap.item.repository.ItemRepository;
 import br.com.fiap.item.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ItemServiceImpl implements ItemService {
 
     @Autowired

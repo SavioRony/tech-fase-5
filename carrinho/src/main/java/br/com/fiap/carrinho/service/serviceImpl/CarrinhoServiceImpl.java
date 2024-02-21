@@ -4,9 +4,11 @@ import br.com.fiap.carrinho.model.CarrinhoModel;
 import br.com.fiap.carrinho.repository.CarrinhoRepository;
 import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Autowired

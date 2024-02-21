@@ -4,9 +4,12 @@ import br.com.fiap.pedido.model.PedidoModel;
 import br.com.fiap.pedido.repository.PedidoRepository;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class PedidoServiceImpl implements PedidoService {
 
     @Autowired
