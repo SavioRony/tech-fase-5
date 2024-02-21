@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @Data
+@Entity
 public class PedidoModel {
 
     @Id

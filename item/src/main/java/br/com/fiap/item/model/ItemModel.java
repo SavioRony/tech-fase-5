@@ -1,4 +1,4 @@
-package br.com.fiap.carrinho.model;
+package br.com.fiap.item.model;
 
 import lombok.Data;
 import lombok.Getter;
@@ -8,16 +8,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @Data
 @Entity
-public class ItemCarrinho {
+public class ItemModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nome;
     private Integer quantidade;
-    private Long idItem;
+    private BigDecimal valorUnitario;
+    private Boolean ativo;
 }
