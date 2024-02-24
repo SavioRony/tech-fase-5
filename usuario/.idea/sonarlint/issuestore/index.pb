@@ -3,14 +3,8 @@
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 7
 HELP.md,1\a\1a273f73b7a477b0745593641bd708a6182c7ad5
-s
-Csrc/main/java/br/com/fiap/usuario/controller/UsuarioController.java,2\d\2dad99c44ac05703176893b075804dd0ca2c166f
 p
 @src/main/java/br/com/fiap/usuario/repository/UserRepository.java,8\f\8f148f275263b1fb5daefe77b0b94575eb8eb9a3
-c
-3src/main/java/br/com/fiap/usuario/model/Perfil.java,b\6\b6d5a029c025bdf0cdc7e06b398eaf6e91ad7eb9
-d
-4src/main/java/br/com/fiap/usuario/model/Usuario.java,1\b\1bddff530f996d5041a7c797ec77528ab6cb7ced
 i
 9src/main/java/br/com/fiap/usuario/UsuarioApplication.java,f\c\fc586bcb897dabe162eda07ee2781f2384e9a7e4
 a
