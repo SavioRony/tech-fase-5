@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/item")
 public class ItemController {
 
     @Autowired
     private ItemService service;
 
-    @GetMapping
+    @GetMapping("/all")
     ResponseEntity<List<ItemModel>> findAll (){
         return ResponseEntity.ok(service.findAll());
     }
 
     @PostMapping
-    ResponseEntity<ItemModel> create (@RequestBody ItemModel model){
+    ResponseEntity<ItemModel> create (@RequestBody ItemModel model, @RequestHeader("X-User-Email") String email){
+        System.out.println("EMAIl: " + email);
         return ResponseEntity.ok(service.create(model));
     }
 

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping(value = "/users")
 public class UserController {
 
     @Autowired
@@ -24,7 +23,8 @@ public class UserController {
 
     @GetMapping("/search")
     public ResponseEntity<User> findByEmail(@RequestParam String email) {
-        return ResponseEntity.ok(service.findByEmail(email));
+        User user = service.findByEmail(email);
+        return user != null ? ResponseEntity.ok(user) : ResponseEntity.status(404).build();
     }
 
     @PostMapping("/client/register")
