@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/carrinho")
 public class CarrinhoController {
 
     @Autowired
     protected CarrinhoService service;
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     ResponseEntity<CarrinhoModel> findById(@PathVariable(name = "id") Long id){
 
         var response = service.findById(id);
@@ -33,7 +32,7 @@ public class CarrinhoController {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @PutMapping("/id")
+    @PutMapping("/{id}")
     ResponseEntity<CarrinhoModel> update(@RequestBody CarrinhoModel model, @PathVariable(name = "id") Long id){
 
         var response = service.update(model, id);
@@ -42,7 +41,7 @@ public class CarrinhoController {
     }
 
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     ResponseEntity<?> delete(@PathVariable(name = "id") Long id){
         var response = service.delete(id);
 

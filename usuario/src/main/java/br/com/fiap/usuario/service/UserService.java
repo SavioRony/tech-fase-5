@@ -23,7 +23,7 @@ public class UserService {
     }
 
     public User findByEmail(String email){
-        return repository.findByEmail(email).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+        return repository.findByEmail(email).orElse(null);
     }
 
     public User saveUser(UserClientRequest request){

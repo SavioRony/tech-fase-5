@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/item")
 public class ItemController {
 
     @Autowired
     private ItemService service;
 
-    @GetMapping
+    @GetMapping("/all")
     ResponseEntity<List<ItemModel>> findAll (){
         return ResponseEntity.ok(service.findAll());
     }
