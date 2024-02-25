@@ -13,3 +13,6 @@ g
 7src/main/java/br/com/fiap/item/service/ItemService.java,d\0\d045645be2cbedbe2d22d7393a08abb4fcf71c6b
 c
 3src/main/java/br/com/fiap/item/ItemApplication.java,5\2\522fc1df2a37fa982208fa3f7f00c0a858e8d2a7
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4

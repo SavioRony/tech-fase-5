@@ -21,3 +21,6 @@ p
 .src/main/java/br/com/fiap/auth/model/User.java,1\0\102085d45482ef975e7dd4a2544695baadbd7dd3
 h
 8src/main/java/br/com/fiap/auth/services/UserService.java,c\f\cfe5aa7aab9f5c8ab93ea525c11726607d26c587
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4

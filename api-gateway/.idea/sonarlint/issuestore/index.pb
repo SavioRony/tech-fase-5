@@ -13,3 +13,6 @@ l
 <src/main/java/br/com/fiap/apigateway/jwt/JwtTokenFilter.java,8\5\85de02c71c2acae84a76c39cdae84c56b11e0f65
 k
 ;src/main/java/br/com/fiap/apigateway/config/ZuulConfig.java,6\5\65524446091aa6089167b9004d3d1beb09ef9211
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4

@@ -13,3 +13,6 @@ k
 ;src/main/java/br/com/fiap/carrinho/CarrinhoApplication.java,f\2\f274a384fe1c5a585ba219bb7ccaeb8714bf0fe2
 k
 ;src/main/java/br/com/fiap/carrinho/model/CarrinhoModel.java,5\8\581471651e69fca474d359d539b9425ead3f72e1
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
