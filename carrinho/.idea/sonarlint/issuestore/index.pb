@@ -13,3 +13,17 @@ k
 ;src/main/java/br/com/fiap/carrinho/CarrinhoApplication.java,f\2\f274a384fe1c5a585ba219bb7ccaeb8714bf0fe2
 k
 ;src/main/java/br/com/fiap/carrinho/model/CarrinhoModel.java,5\8\581471651e69fca474d359d539b9425ead3f72e1
+t
+Dsrc/main/java/br/com/fiap/carrinho/feignClients/ItemFeignClient.java,8\5\857c912969509369f9653be6b408d45a46b8ab9d
+i
+9src/main/java/br/com/fiap/carrinho/model/dto/ItemDTO.java,f\4\f4385898d23c8a8bd32ad27a712dd5938bfbbab3
+t
+Dsrc/main/java/br/com/fiap/carrinho/feignClients/UserFeignClient.java,a\5\a59f5012095faa9cf33b398a555bd585802f39ff
+i
+9src/main/java/br/com/fiap/carrinho/model/dto/UserDTO.java,0\a\0afa5ed81722bb50ecb990a6469ca518a5915681
+o
+?src/main/java/br/com/fiap/carrinho/service/CarrinhoService.java,2\b\2bda5e824accf53854e73efb0751df8719d7a569
+u
+Esrc/main/java/br/com/fiap/carrinho/repository/CarrinhoRepository.java,a\3\a35799c6231d70bccdf693a543db309b556b4ab6
+‚
+Rsrc/main/java/br/com/fiap/carrinho/service/implementation/CarrinhoServiceImpl.java,a\6\a6f2ddef0fbb8704c1624e70c8c5efc75627aa98

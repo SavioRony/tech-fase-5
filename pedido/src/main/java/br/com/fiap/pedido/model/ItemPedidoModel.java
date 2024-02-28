@@ -20,5 +20,6 @@ public class ItemPedidoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer quantidade;
+    private Long idItem;
     private BigDecimal subTotal;
 }

@@ -1,19 +1,18 @@
 package br.com.fiap.pedido.service;
 
 import br.com.fiap.pedido.model.PedidoModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 public interface PedidoService {
 
-    PedidoModel create(PedidoModel model);
+    PedidoModel create(PedidoModel model, String email);
 
-    PedidoModel update(PedidoModel model, Long idPedido);
+    PedidoModel findByUser(String email);
 
-    PedidoModel findById(Long idPedido);
+    PedidoModel findByIdUsuario(Long idUsuario);
 
-    List<PedidoModel> findAll();
+    List<PedidoModel> findAll(String email);
 
-    Long delete(Long id);
+    Long delete(String email);
 }

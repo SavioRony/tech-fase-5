@@ -41,6 +41,14 @@ public class ItemController {
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }
 
+    @PutMapping("/estoque/{id}")
+    ResponseEntity<?> updateEstoque(@PathVariable(name = "id")Long id, @RequestBody ItemModel model){
+
+        var response = service.updateEstoque(model, id);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}")
     ResponseEntity<?> delete (@PathVariable(name = "id")Long id){
         var response = service.delete(id);
