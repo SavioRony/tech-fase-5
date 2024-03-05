@@ -1,6 +1,7 @@
 package br.com.fiap.carrinho.controller;
 
 import br.com.fiap.carrinho.model.CarrinhoModel;
+import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,7 @@ public class CarrinhoController {
     protected CarrinhoService service;
 
     @GetMapping("")
-    ResponseEntity<CarrinhoModel> findByUser(@RequestHeader("X-User-Email") String email){
+    ResponseEntity<CarrinhoDTO> findByUser(@RequestHeader("X-User-Email") String email){
 
         var response = service.findCarrinhoByUser(email);
 
@@ -21,7 +22,7 @@ public class CarrinhoController {
     }
 
     @PostMapping
-    ResponseEntity<CarrinhoModel> create(@RequestBody CarrinhoModel model,  @RequestHeader("X-User-Email") String email){
+    ResponseEntity<CarrinhoDTO> create(@RequestBody CarrinhoDTO model, @RequestHeader("X-User-Email") String email){
         return ResponseEntity.ok(service.create(model, email));
     }
 

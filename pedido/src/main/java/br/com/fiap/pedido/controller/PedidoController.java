@@ -1,6 +1,7 @@
 package br.com.fiap.pedido.controller;
 
 import br.com.fiap.pedido.model.PedidoModel;
+import br.com.fiap.pedido.model.dto.PedidoDTO;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +21,17 @@ public class PedidoController {
     protected PedidoService service;
 
     @PostMapping
-    ResponseEntity<PedidoModel> create(@RequestBody PedidoModel model, @RequestHeader("X-User-Email") String email){
+    ResponseEntity<PedidoDTO> create(@RequestBody PedidoDTO model, @RequestHeader("X-User-Email") String email){
         return ResponseEntity.ok(service.create(model, email));
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<PedidoModel>> findAll(@RequestHeader("X-User-Email") String email){
+    ResponseEntity<List<PedidoDTO>> findAll(@RequestHeader("X-User-Email") String email){
         return ResponseEntity.ok(service.findAll(email));
     }
 
     @GetMapping
-    ResponseEntity<PedidoModel> findByUser(@RequestHeader("X-User-Email") String email){
+    ResponseEntity<PedidoDTO> findByUser(@RequestHeader("X-User-Email") String email){
 
         var response = service.findByUser(email);
 

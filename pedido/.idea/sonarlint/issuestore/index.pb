@@ -31,3 +31,11 @@ g
 7src/main/java/br/com/fiap/pedido/model/dto/ItemDTO.java,3\8\38349d19f9518e1423059d7ac6ccfa18ef08bfc4
 q
 Asrc/main/java/br/com/fiap/pedido/repository/PedidoRepository.java,2\5\25eb7f34e6727e1283bc0cdf724e433fc738a223
+i
+9src/main/java/br/com/fiap/pedido/model/dto/PedidoDTO.java,9\3\931051ad566218ffce01e2ba1ecd4c0e24c65c07
+m
+=src/main/java/br/com/fiap/pedido/model/dto/ItemPedidoDTO.java,2\1\219243554ab76bb938bdcb4542f64ff4cbb4cc24
+i
+9src/main/java/br/com/fiap/pedido/mapper/PedidoMapper.java,2\a\2a391974c89d1bfc111acb6e7adcc9e653afca9b
+m
+=src/main/java/br/com/fiap/pedido/mapper/ItemPedidoMapper.java,d\7\d737ecb4f09f6a1d9bcb6fdada746b5d6a444347

@@ -1,14 +1,15 @@
 package br.com.fiap.carrinho.service;
 
 import br.com.fiap.carrinho.model.CarrinhoModel;
+import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 
 import java.util.List;
 
 public interface CarrinhoService {
 
-    CarrinhoModel create(CarrinhoModel model, String email);
+    CarrinhoDTO create(CarrinhoDTO model, String email);
 
-    CarrinhoModel findCarrinhoByUser(String email);
+    CarrinhoDTO findCarrinhoByUser(String email);
 
     CarrinhoModel findByIdUsuario(Long idUsuario);
 

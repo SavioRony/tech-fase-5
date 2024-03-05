@@ -2,8 +2,10 @@ package br.com.fiap.carrinho.service.implementation;
 
 import br.com.fiap.carrinho.feignClients.ItemFeignClient;
 import br.com.fiap.carrinho.feignClients.UserFeignClient;
+import br.com.fiap.carrinho.mapper.CarrinhoMapper;
 import br.com.fiap.carrinho.model.CarrinhoModel;
 import br.com.fiap.carrinho.model.ItemCarrinho;
+import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 import br.com.fiap.carrinho.repository.CarrinhoRepository;
 import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,14 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     @Autowired
     protected UserFeignClient userClient;
 
+    @Autowired
+    protected CarrinhoMapper mapper;
+
     @Override
-    public CarrinhoModel create(CarrinhoModel model, String email) {
+    public CarrinhoDTO create(CarrinhoDTO dto, String email) {
+        var model = mapper.toModel(dto);
         validateQuantytyItems(model);
-        return repository.save(veryfyUserGenerateNewBuy(model, email));
+        return mapper.toDTO(repository.save(veryfyUserGenerateNewBuy(model, email)));
     }
 
     private CarrinhoModel veryfyUserGenerateNewBuy(CarrinhoModel model, String email) {
@@ -59,10 +65,11 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     }
 
     @Override
-    public CarrinhoModel findCarrinhoByUser(String email) {
+    public CarrinhoDTO findCarrinhoByUser(String email) {
        var user = userClient.findByEmail(email).getBody();
        if(user != null){
-           return findByIdUsuario(user.getId());
+           var response = findByIdUsuario(user.getId());
+           return response != null ? mapper.toDTO(response) : null;
        }
        return null;
     }
