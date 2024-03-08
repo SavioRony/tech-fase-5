@@ -1,6 +1,5 @@
 package br.com.fiap.pedido.controller;
 
-import br.com.fiap.pedido.model.PedidoModel;
 import br.com.fiap.pedido.model.dto.PedidoDTO;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
