@@ -20,7 +20,7 @@ public class ItemController {
     }
 
     @PostMapping
-    ResponseEntity<ItemModel> create (@RequestBody ItemModel model, @RequestHeader("X-User-Email") String email){
+    ResponseEntity<ItemModel> create (@RequestBody ItemModel model, @RequestHeader(value = "X-User-Email", required = false) String email){
         System.out.println("EMAIl: " + email);
         return ResponseEntity.ok(service.create(model));
     }

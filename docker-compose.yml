@@ -25,32 +25,6 @@ services:
     networks:
       - app-network
 
-  api-gateway:
-    container_name: api-gateway
-    build:
-      context: ./api-gateway
-      dockerfile: Dockerfile
-    image: api-gateway:v1
-    ports:
-      - "8765:8765"
-    depends_on:
-      - config-server
-      - eureka-server
-    networks:
-      - app-network
-
-  auth:
-    container_name: auth
-    build:
-      context: ./auth
-      dockerfile: Dockerfile
-    image: auth:v1
-    depends_on:
-      - config-server
-      - eureka-server
-    networks:
-      - app-network
-
   usuario:
     container_name: usuario
     build:
@@ -106,6 +80,34 @@ services:
       - app-network
     volumes:
       - ./db/main/tech-fase-5/pedido:/app/db
+  
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway:v1
+    ports:
+      - "8765:8765"
+    depends_on:
+      - config-server
+      - eureka-server
+    restart: on-failure
+    networks:
+      - app-network
+
+  auth:
+    container_name: auth
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    image: auth:v1
+    depends_on:
+      - config-server
+      - eureka-server
+    restart: on-failure
+    networks:
+      - app-network
 
 networks: 
   app-network:
