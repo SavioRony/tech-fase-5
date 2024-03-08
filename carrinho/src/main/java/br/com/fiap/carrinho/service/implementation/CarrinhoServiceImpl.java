@@ -72,14 +72,16 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
         if((model.getItems() != null && !model.getItems().isEmpty()) && (car.getItems() != null && !car.getItems().isEmpty())){
             List<ItemCarrinho> updateListItems = new ArrayList<>();
-            for(ItemCarrinho item : model.getItems()){
-                var match = car.getItems().stream().filter(i -> i.getIdItem().equals(item.getIdItem())).collect(Collectors.toList());
+            for(ItemCarrinho item : car.getItems()){
+                var match = model.getItems().stream().filter(i -> i.getIdItem().equals(item.getIdItem())).collect(Collectors.toList());
                 if(!match.isEmpty()){
                     item.setQuantidade(item.getQuantidade() + match.get(0).getQuantidade());
+                    updateListItems.add(item);
                 }else {
                     updateListItems.add(item);
                 }
             }
+            model.getItems().clear();
             model.getItems().addAll(updateListItems);
             validateQuantytyItems(model);
         }
