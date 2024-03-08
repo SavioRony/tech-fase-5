@@ -33,7 +33,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     @Override
     public CarrinhoDTO addItems(CarrinhoDTO dto, String email) {
         var model = mapper.toModel(dto);
-        validateQuantytyItems(model);
+        validateQuantityItems(model);
         return mapper.toDTO(repository.save(veryfyUserGenerateNewBuy(model, email)));
     }
 
@@ -85,11 +85,11 @@ public class CarrinhoServiceImpl implements CarrinhoService {
             model.getItems().clear();
             model.getItems().addAll(updateListItems);
             model.getItems().addAll(model.getItems().stream().filter(i -> !updateListItems.contains(i)).collect(Collectors.toList()));
-            validateQuantytyItems(model);
+            validateQuantityItems(model);
         }
     }
 
-    private void validateQuantytyItems(CarrinhoModel model){
+    private void validateQuantityItems(CarrinhoModel model){
         if(model.getItems() != null && !model.getItems().isEmpty()){
             for(ItemCarrinho item : model.getItems()){
                 var itemResponse = itemClient.findById(item.getIdItem()).getBody();
