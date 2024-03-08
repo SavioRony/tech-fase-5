@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
 
 @Component
-@FeignClient(name = "/item")
+@FeignClient(name = "item")
 public interface ItemFeignClient {
 
     @GetMapping("/{id}")

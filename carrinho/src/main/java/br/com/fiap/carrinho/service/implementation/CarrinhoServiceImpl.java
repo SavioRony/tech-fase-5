@@ -102,12 +102,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public CarrinhoDTO findCarrinhoByUser(String email) {
-       var user = userClient.findByEmail(email).getBody();
-       if(user != null){
-           var response = findByIdUsuario(user.getId());
-           return response != null ? mapper.toDTO(response) : null;
-       }
-       return null;
+        var user = userClient.findByEmail(email).getBody();
+        if(user != null){
+            var response = findByIdUsuario(user.getId());
+            return response != null ? mapper.toDTO(response) : null;
+        }
+        return null;
     }
 
     @Override
@@ -121,8 +121,8 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         var response = this.findCarrinhoByUser(email);
 
         if(response != null){
-             repository.deleteById(response.getId());
-             return response.getId();
+            repository.deleteById(response.getId());
+            return response.getId();
         }
         return null;
     }

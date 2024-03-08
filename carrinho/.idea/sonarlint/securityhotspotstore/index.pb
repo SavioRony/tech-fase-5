@@ -31,3 +31,5 @@ m
 =src/main/java/br/com/fiap/carrinho/model/dto/CarrinhoDTO.java,9\0\90f38405ac353a17fd2b105333d51631da81a890
 q
 Asrc/main/java/br/com/fiap/carrinho/model/dto/ItemCarrinhoDTO.java,a\6\a664bfaa1bf37ccaa701849e09adaaa35955e41a
+y
+Isrc/main/java/br/com/fiap/carrinho/repository/ItemCarrinhoRepository.java,8\8\880e69c6f6e112b76e2132c84e56499af1525af3
