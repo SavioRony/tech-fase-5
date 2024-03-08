@@ -1,11 +1,16 @@
 package br.com.fiap.pedido.controller;
 
 import br.com.fiap.pedido.model.PedidoModel;
+import br.com.fiap.pedido.model.dto.PedidoDTO;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -13,29 +18,30 @@ import java.util.List;
 public class PedidoController {
 
     @Autowired
-    private PedidoService service;
+    protected PedidoService service;
 
     @PostMapping
-    ResponseEntity<PedidoModel> create(@RequestBody PedidoModel model){
-        return ResponseEntity.ok(service.create(model));
+    ResponseEntity<PedidoDTO> create(@RequestBody PedidoDTO model, @RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.create(model, email));
     }
 
-    @PutMapping("/{id}")
-    ResponseEntity<PedidoModel> update(@RequestBody PedidoModel model, @PathVariable(name = "id") Long id){
-        var response = service.update(model, id);
-
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+    @GetMapping("/all")
+    ResponseEntity<List<PedidoDTO>> findAll(@RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.findAll(email));
     }
 
     @GetMapping
-    ResponseEntity<List<PedidoModel>> findAll(){
-        return ResponseEntity.ok(service.findAll());
+    ResponseEntity<PedidoDTO> findByUser(@RequestHeader("X-User-Email") String email){
+
+        var response = service.findByUser(email);
+
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<?> delete(@PathVariable(name = "id") Long id){
+    @DeleteMapping("")
+    ResponseEntity<?> delete(@RequestHeader("X-User-Email") String email){
 
-        var response = service.delete(id);
+        var response = service.delete(email);
 
         return response != null ? ResponseEntity.status(200).build() : ResponseEntity.notFound().build();
     }

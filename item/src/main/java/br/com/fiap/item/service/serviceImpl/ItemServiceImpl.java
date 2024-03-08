@@ -29,13 +29,28 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public ItemModel updateEstoque(ItemModel model, Long id) {
+        var itemUpdated = findById(id);
+        if(itemUpdated != null){
+            itemUpdated.setQuantidade(model.getQuantidade());
+            return repository.save(itemUpdated);
+        }
+        return null;
+    }
+
+    @Override
     public ItemModel findById(Long id) {
-        return repository.findById(id).orElse(null);
+        return generateStatus(repository.findById(id).orElse(null));
     }
 
     @Override
     public List<ItemModel> findAll() {
-        return repository.findAll();
+        var allItems = repository.findAll();
+        if(!allItems.isEmpty()){
+            allItems.forEach(this::generateStatus);
+            return allItems;
+        }
+        return allItems;
     }
 
     @Override
@@ -44,6 +59,19 @@ public class ItemServiceImpl implements ItemService {
         if(itemUpdated != null){
             repository.deleteById(id);
             return id;
+        }
+        return null;
+    }
+
+    private ItemModel generateStatus(ItemModel model){
+
+        if(model != null){
+            if(model.getQuantidade() > 0){
+                model.setAtivo(Boolean.TRUE);
+            }else {
+                model.setAtivo(Boolean.FALSE);
+            }
+            return model;
         }
         return null;
     }

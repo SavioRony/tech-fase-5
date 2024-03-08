@@ -1,19 +1,19 @@
 package br.com.fiap.carrinho.service;
 
 import br.com.fiap.carrinho.model.CarrinhoModel;
-import org.springframework.stereotype.Service;
+import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 
 import java.util.List;
 
 public interface CarrinhoService {
 
-    CarrinhoModel create(CarrinhoModel model);
+    CarrinhoDTO create(CarrinhoDTO model, String email);
 
-    CarrinhoModel update(CarrinhoModel model, Long id);
+    CarrinhoDTO findCarrinhoByUser(String email);
 
-    CarrinhoModel findById(Long id);
+    CarrinhoModel findByIdUsuario(Long idUsuario);
 
-    Long delete(Long id);
+    Long delete(String email);
 
     List<CarrinhoModel> findAll();
 }
