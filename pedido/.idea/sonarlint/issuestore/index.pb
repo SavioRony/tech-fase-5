@@ -39,3 +39,6 @@ i
 9src/main/java/br/com/fiap/pedido/mapper/PedidoMapper.java,2\a\2a391974c89d1bfc111acb6e7adcc9e653afca9b
 m
 =src/main/java/br/com/fiap/pedido/mapper/ItemPedidoMapper.java,d\7\d737ecb4f09f6a1d9bcb6fdada746b5d6a444347
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4

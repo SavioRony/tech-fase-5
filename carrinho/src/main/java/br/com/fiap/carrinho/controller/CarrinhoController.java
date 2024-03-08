@@ -1,6 +1,5 @@
 package br.com.fiap.carrinho.controller;
 
-import br.com.fiap.carrinho.model.CarrinhoModel;
 import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
