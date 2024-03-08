@@ -1,6 +1,6 @@
 package br.com.fiap.carrinho.controller;
 
-import br.com.fiap.carrinho.model.CarrinhoModel;
+import br.com.fiap.carrinho.model.ItemCarrinho;
 import br.com.fiap.carrinho.model.dto.CarrinhoDTO;
 import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,13 @@ public class CarrinhoController {
     }
 
     @PostMapping
-    ResponseEntity<CarrinhoDTO> create(@RequestBody CarrinhoDTO model, @RequestHeader("X-User-Email") String email){
-        return ResponseEntity.ok(service.create(model, email));
+    ResponseEntity<CarrinhoDTO> addItems(@RequestBody CarrinhoDTO model, @RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.addItems(model, email));
+    }
+
+    @PatchMapping
+    ResponseEntity<CarrinhoDTO> removeItems(@RequestBody ItemCarrinho model, @RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.removeItems(model, email));
     }
 
 

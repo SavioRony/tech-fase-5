@@ -39,3 +39,5 @@ i
 9src/main/java/br/com/fiap/pedido/mapper/PedidoMapper.java,2\a\2a391974c89d1bfc111acb6e7adcc9e653afca9b
 m
 =src/main/java/br/com/fiap/pedido/mapper/ItemPedidoMapper.java,d\7\d737ecb4f09f6a1d9bcb6fdada746b5d6a444347
+p
+@src/main/java/br/com/fiap/pedido/model/dto/PedidoRequestDTO.java,6\3\635c578e064b9a6b87bc090ee15be3b54c192c0f

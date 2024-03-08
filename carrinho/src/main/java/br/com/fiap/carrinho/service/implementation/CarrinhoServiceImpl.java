@@ -11,7 +11,9 @@ import br.com.fiap.carrinho.service.CarrinhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarrinhoServiceImpl implements CarrinhoService {
@@ -29,10 +31,26 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     protected CarrinhoMapper mapper;
 
     @Override
-    public CarrinhoDTO create(CarrinhoDTO dto, String email) {
+    public CarrinhoDTO addItems(CarrinhoDTO dto, String email) {
         var model = mapper.toModel(dto);
         validateQuantytyItems(model);
         return mapper.toDTO(repository.save(veryfyUserGenerateNewBuy(model, email)));
+    }
+
+    @Override
+    public CarrinhoDTO removeItems(ItemCarrinho dto, String email) {
+        var car = findCarrinhoByUser(email);
+        if (car != null) {
+            var match = car.getItems().stream().filter(i -> (i.getId() != null && i.getId().equals(dto.getId())) ||
+                    ( i.getIdItem() != null && i.getIdItem().equals(dto.getIdItem()))).collect(Collectors.toList());
+
+            if (!match.isEmpty()) {
+                match.get(0).setQuantidade(dto.getQuantidade() > match.get(0).getQuantidade() ? 0 : (match.get(0).getQuantidade() - dto.getQuantidade()));
+            }
+
+            return mapper.toDTO(repository.save(mapper.toModel(car)));
+        }
+        throw new IllegalArgumentException("your shopping cart was not found");
     }
 
     private CarrinhoModel veryfyUserGenerateNewBuy(CarrinhoModel model, String email) {
@@ -43,10 +61,28 @@ public class CarrinhoServiceImpl implements CarrinhoService {
             model.setIdUsuario(user.getId());
             if(car != null){
                 model.setId(car.getId());
+                validateAndUpdateItemsExistsInCar(model,car);
             }
             return model;
         }
         throw new IllegalArgumentException("User not found");
+    }
+
+    private void validateAndUpdateItemsExistsInCar(CarrinhoModel model, CarrinhoModel car){
+
+        if((model.getItems() != null && !model.getItems().isEmpty()) && (car.getItems() != null && !car.getItems().isEmpty())){
+            List<ItemCarrinho> updateListItems = new ArrayList<>();
+            for(ItemCarrinho item : model.getItems()){
+                var match = car.getItems().stream().filter(i -> i.getIdItem().equals(item.getIdItem())).collect(Collectors.toList());
+                if(!match.isEmpty()){
+                    item.setQuantidade(item.getQuantidade() + match.get(0).getQuantidade());
+                }else {
+                    updateListItems.add(item);
+                }
+            }
+            model.getItems().addAll(updateListItems);
+            validateQuantytyItems(model);
+        }
     }
 
     private void validateQuantytyItems(CarrinhoModel model){

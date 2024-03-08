@@ -41,16 +41,16 @@ public class PedidoServiceImpl implements PedidoService {
     private final List<ItemDTO> updateListEstoque = new ArrayList<>();
 
     @Override
-    public PedidoDTO create(PedidoDTO model, String email) {
+    public PedidoDTO create(PedidoRequestDTO request, String email) {
         var user = userClient.findByEmail(email).getBody();
         if(user != null){
             var buy = carrinhoClient.findByUser(user.getEmail()).getBody();
             if(buy != null){
 
-                var modelToSave = generateModel(mapper.toModel(model),user);
+                var modelToSave = generateModel(request,user);
 
-                if(modelToSave.getItems() != null){
-                    modelToSave.getItems().forEach(this::updateQuantytyAndSet);
+                if(buy.getItems() != null){
+                    catchItemsInCar(buy.getItems(), modelToSave);
                 }
 
                 var response = repository.save(modelToSave);
@@ -66,9 +66,22 @@ public class PedidoServiceImpl implements PedidoService {
         throw new IllegalArgumentException("User not found");
     }
 
-    private PedidoModel generateModel(PedidoModel model, UserDTO user){
+    private void catchItemsInCar(List<ItemCarrinnhoDTO> items, PedidoModel modelToSave) {
+        modelToSave.setItems(new ArrayList<>());
+        for(ItemCarrinnhoDTO item : items){
+            var newItem = new ItemPedidoModel();
+            newItem.setIdItem(item.getIdItem());
+            newItem.setQuantidade(item.getQuantidade());
+            updateQuantytyAndSet(newItem);
+            modelToSave.getItems().add(newItem);
+        }
+    }
+
+    private PedidoModel generateModel(PedidoRequestDTO request, UserDTO user){
+        var model = new PedidoModel();
         model.setDataPedido(LocalDate.now());
         model.setIdUsuario(user.getId());
+        model.setFormaPagamento(request.getFormaPagamento());
         return model;
     }
 
@@ -89,23 +102,6 @@ public class PedidoServiceImpl implements PedidoService {
         }
     }
 
-
-    @Override
-    public PedidoDTO findByUser(String email) {
-
-        var user = userClient.findByEmail(email).getBody();
-        if(user != null){
-            var response = findByIdUsuario(user.getId());
-            return response != null ? mapper.toDTO(response) : null;
-        }
-        return null;
-    }
-
-    @Override
-    public PedidoModel findByIdUsuario(Long idUsuario) {
-        return repository.findByIdUsuario(idUsuario).orElse(null);
-    }
-
     @Override
     public List<PedidoDTO> findAll(String email) {
         var response = repository.findAll();
@@ -115,17 +111,5 @@ public class PedidoServiceImpl implements PedidoService {
             return mapper.toResponseAllDto(response.stream().filter(filter -> filter.getIdUsuario().equals(user.getId())).collect(Collectors.toList()));
         }
         return new ArrayList<>();
-    }
-
-    @Override
-    public Long delete (String email) {
-
-        var response = this.findByUser(email);
-
-        if(response != null){
-            repository.deleteById(response.getId());
-            return response.getId();
-        }
-        return null;
     }
 }

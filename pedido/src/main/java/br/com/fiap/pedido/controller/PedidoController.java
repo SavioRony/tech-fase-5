@@ -2,6 +2,7 @@ package br.com.fiap.pedido.controller;
 
 import br.com.fiap.pedido.model.PedidoModel;
 import br.com.fiap.pedido.model.dto.PedidoDTO;
+import br.com.fiap.pedido.model.dto.PedidoRequestDTO;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,28 +22,12 @@ public class PedidoController {
     protected PedidoService service;
 
     @PostMapping
-    ResponseEntity<PedidoDTO> create(@RequestBody PedidoDTO model, @RequestHeader("X-User-Email") String email){
-        return ResponseEntity.ok(service.create(model, email));
+    ResponseEntity<PedidoDTO> create(@RequestBody PedidoRequestDTO request, @RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.create(request, email));
     }
 
     @GetMapping("/all")
     ResponseEntity<List<PedidoDTO>> findAll(@RequestHeader("X-User-Email") String email){
         return ResponseEntity.ok(service.findAll(email));
-    }
-
-    @GetMapping
-    ResponseEntity<PedidoDTO> findByUser(@RequestHeader("X-User-Email") String email){
-
-        var response = service.findByUser(email);
-
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("")
-    ResponseEntity<?> delete(@RequestHeader("X-User-Email") String email){
-
-        var response = service.delete(email);
-
-        return response != null ? ResponseEntity.status(200).build() : ResponseEntity.notFound().build();
     }
 }
