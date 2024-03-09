@@ -82,7 +82,7 @@ public class CarrinhoServiceImpl implements CarrinhoService {
                 }
             }
 
-            var newItems = model.getItems().stream().filter(i -> !updateListItems.contains(i)).collect(Collectors.toList());
+            var newItems = model.getItems().stream().filter(i -> updateListItems.stream().noneMatch(ni -> ni.getIdItem().equals(i.getIdItem()))).collect(Collectors.toList());
             model.getItems().clear();
             model.getItems().addAll(updateListItems);
             model.getItems().addAll(newItems);
