@@ -25,9 +25,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     private JwtTokenStore tokenStore;
 
-    private static final String[] PUBLIC = { "/auth/oauth/token", "/usuario/client/**","/item/item/all","/pedido/**", "/carrinho/**", "/item/**" };
-    private static final String[] ADMIN = { "/usuario/**", "/auth/actuator/**"};
-    //private static final String[] ADMIN_CLIENT = { "/item/item/**"};
+    private static final String[] PUBLIC = { "/auth/oauth/token", "/usuario/client/**","/item/all" };
+    private static final String[] ADMIN = { "/usuario/**", "/auth/actuator/**","/item/**"};
+    private static final String[] ADMIN_CLIENT = {"/pedido/**", "/carrinho/**"};
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -39,8 +39,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
-                //.antMatchers(ADMIN_CLIENT).hasAnyRole("CLIENT","ADMIN")
                 .antMatchers(ADMIN).hasRole("ADMIN")
+                .antMatchers(ADMIN_CLIENT).hasAnyRole("CLIENT","ADMIN")
                 .anyRequest().authenticated();
 
         http.cors().configurationSource(corsConfigurationSource());

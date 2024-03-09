@@ -23,17 +23,8 @@ public class ItemServiceImpl implements ItemService {
     public ItemModel update(ItemModel model, Long id) {
         var itemUpdated = findById(id);
         if(itemUpdated != null){
+            model.update(itemUpdated);
             return repository.save(model);
-        }
-        return null;
-    }
-
-    @Override
-    public ItemModel updateEstoque(ItemModel model, Long id) {
-        var itemUpdated = findById(id);
-        if(itemUpdated != null){
-            itemUpdated.setQuantidade(model.getQuantidade());
-            return repository.save(itemUpdated);
         }
         return null;
     }
@@ -53,15 +44,6 @@ public class ItemServiceImpl implements ItemService {
         return allItems;
     }
 
-    @Override
-    public Long delete(Long id) {
-        var itemUpdated = findById(id);
-        if(itemUpdated != null){
-            repository.deleteById(id);
-            return id;
-        }
-        return null;
-    }
 
     private ItemModel generateStatus(ItemModel model){
 

@@ -21,4 +21,12 @@ public class ItemModel {
     private Integer quantidade;
     private BigDecimal valorUnitario;
     private Boolean ativo;
+
+    public void update(ItemModel item){
+        this.id = id == null ? item.getId() : this.id;
+        this.nome = nome == null ? item.getNome() : this.nome;
+        this.quantidade = quantidade == null ? item.getQuantidade() : this.quantidade;
+        this.valorUnitario = valorUnitario == null ? item.getValorUnitario() : this.valorUnitario;
+        this.ativo = ativo == null ? item.getAtivo() : this.ativo;
+    }
 }

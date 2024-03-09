@@ -1,6 +1,7 @@
 package br.com.fiap.carrinho.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @Data
 @Entity
+@EqualsAndHashCode
 public class CarrinhoModel {
 
     @Id
