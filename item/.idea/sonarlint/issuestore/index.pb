@@ -13,3 +13,9 @@ g
 7src/main/java/br/com/fiap/item/service/ItemService.java,d\0\d045645be2cbedbe2d22d7393a08abb4fcf71c6b
 c
 3src/main/java/br/com/fiap/item/ItemApplication.java,5\2\522fc1df2a37fa982208fa3f7f00c0a858e8d2a7
+i
+9src/main/java/br/com/fiap/item/mapper/CarrinhoMapper.java,9\b\9b21494c5b015596ffaf4abeeb58f25756b6f762
+e
+5src/main/java/br/com/fiap/item/mapper/ItemMapper.java,3\3\337717c5887cd36657506df821b6b5a43754c49a
+l
+<src/main/java/br/com/fiap/item/model/dto/ItemRequestDTO.java,d\9\d9579e3b9fcebeb7198d783789c1a76f29820f9c

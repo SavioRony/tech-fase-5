@@ -1,5 +1,6 @@
 package br.com.fiap.carrinho.service.implementation;
 
+import br.com.fiap.carrinho.exception.BadRequestException;
 import br.com.fiap.carrinho.feignClients.ItemFeignClient;
 import br.com.fiap.carrinho.feignClients.UserFeignClient;
 import br.com.fiap.carrinho.mapper.CarrinhoMapper;
@@ -33,8 +34,12 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     @Override
     public CarrinhoDTO addItems(CarrinhoDTO dto, String email) {
         var model = mapper.toModel(dto);
-        validateQuantityItems(model);
-        return mapper.toDTO(repository.save(veryfyUserGenerateNewBuy(model, email)));
+        CarrinhoDTO car = findCarrinhoByUser(email);
+        validatesItemsContainingCart(car.getItems(), model.getItems());
+        validatesNewItems(car.getItems(), model.getItems());
+        validatesQuantityOfItems(car.getItems());
+        CarrinhoModel carrinhoModel = veryfyUserGenerateNewBuy(mapper.toModel(car), email);
+        return mapper.toDTO(repository.save(carrinhoModel));
     }
 
     @Override
@@ -42,77 +47,32 @@ public class CarrinhoServiceImpl implements CarrinhoService {
         var car = findCarrinhoByUser(email);
         if (car != null) {
             var match = car.getItems().stream().filter(i -> (i.getId() != null && i.getId().equals(dto.getId())) ||
-                    ( i.getIdItem() != null && i.getIdItem().equals(dto.getIdItem()))).collect(Collectors.toList());
+                    (i.getIdItem() != null && i.getIdItem().equals(dto.getIdItem()))).collect(Collectors.toList());
 
             if (!match.isEmpty()) {
-                match.get(0).setQuantidade(dto.getQuantidade() > match.get(0).getQuantidade() ? 0 : (match.get(0).getQuantidade() - dto.getQuantidade()));
+                match.get(0).setQuantidade(dto.getQuantidade() > match.get(0).getQuantidade() ? 0
+                        : (match.get(0).getQuantidade() - dto.getQuantidade()));
             }
 
-            return mapper.toDTO(repository.save(mapper.toModel(car)));
+            List<ItemCarrinho> itensVazio = car.getItems().stream().filter(c -> c.getQuantidade() == 0).collect(Collectors.toList());
+            car.getItems().removeAll(itensVazio);
+            CarrinhoModel carrinhoModel = veryfyUserGenerateNewBuy(mapper.toModel(car), email);
+            return mapper.toDTO(repository.save(carrinhoModel));
         }
-        throw new IllegalArgumentException("your shopping cart was not found");
+        throw new BadRequestException("your shopping cart was not found");
     }
 
-    private CarrinhoModel veryfyUserGenerateNewBuy(CarrinhoModel model, String email) {
-
-        var user = userClient.findByEmail(email).getBody();
-        if(user != null){
-            var car = findByIdUsuario(user.getId());
-            model.setIdUsuario(user.getId());
-            if(car != null){
-                model.setId(car.getId());
-                validateAndUpdateItemsExistsInCar(model,car);
-            }
-            return model;
-        }
-        throw new IllegalArgumentException("User not found");
-    }
-
-    private void validateAndUpdateItemsExistsInCar(CarrinhoModel model, CarrinhoModel car){
-
-        if((model.getItems() != null && !model.getItems().isEmpty()) && (car.getItems() != null && !car.getItems().isEmpty())){
-            List<ItemCarrinho> updateListItems = new ArrayList<>();
-            for(ItemCarrinho item : car.getItems()){
-                var match = model.getItems().stream().filter(i -> i.getIdItem().equals(item.getIdItem())).collect(Collectors.toList());
-                if(!match.isEmpty()){
-                    item.setQuantidade(item.getQuantidade() + match.get(0).getQuantidade());
-                    updateListItems.add(item);
-                }else {
-                    updateListItems.add(item);
-                }
-            }
-
-            var newItems = model.getItems().stream().filter(i -> updateListItems.stream().noneMatch(ni -> ni.getIdItem().equals(i.getIdItem()))).collect(Collectors.toList());
-            model.getItems().clear();
-            model.getItems().addAll(updateListItems);
-            model.getItems().addAll(newItems);
-            validateQuantityItems(model);
-        }
-    }
-
-    private void validateQuantityItems(CarrinhoModel model){
-        if(model.getItems() != null && !model.getItems().isEmpty()){
-            for(ItemCarrinho item : model.getItems()){
-                var itemResponse = itemClient.findById(item.getIdItem()).getBody();
-                if(itemResponse != null){
-                    if(item.getQuantidade() > itemResponse.getQuantidade()){
-                        throw new IllegalArgumentException("Quantidade invalida !");
-                    }
-                }else{
-                    throw new IllegalArgumentException("Item not found");
-                }
-            }
-        }
-    }
 
     @Override
     public CarrinhoDTO findCarrinhoByUser(String email) {
         var user = userClient.findByEmail(email).getBody();
-        if(user != null){
+        CarrinhoDTO carrinhoDTO = new CarrinhoDTO();
+        carrinhoDTO.setItems(new ArrayList<>());
+        if (user != null) {
             var response = findByIdUsuario(user.getId());
-            return response != null ? mapper.toDTO(response) : null;
+            return response != null ? mapper.toDTO(response) : carrinhoDTO;
         }
-        return null;
+        return carrinhoDTO;
     }
 
     @Override
@@ -122,10 +82,8 @@ public class CarrinhoServiceImpl implements CarrinhoService {
 
     @Override
     public Long delete(String email) {
-
         var response = this.findCarrinhoByUser(email);
-
-        if(response != null){
+        if (response != null) {
             repository.deleteById(response.getId());
             return response.getId();
         }
@@ -135,5 +93,55 @@ public class CarrinhoServiceImpl implements CarrinhoService {
     @Override
     public List<CarrinhoModel> findAll() {
         return repository.findAll();
+    }
+
+    private void validatesItemsContainingCart(List<ItemCarrinho> itensCarrinho, List<ItemCarrinho> itensModel) {
+        if (itensCarrinho.isEmpty()) {
+            itensCarrinho.addAll(itensModel);
+        }else {
+            for (ItemCarrinho itemModel : itensModel) {
+                for (ItemCarrinho itemCarrinho : itensCarrinho) {
+                    if (itemCarrinho.getIdItem().equals(itemModel.getIdItem())) {
+                        itemCarrinho.setQuantidade(itemCarrinho.getQuantidade() + itemModel.getQuantidade());
+                    }
+                }
+            }
+        }
+    }
+
+    private void validatesNewItems(List<ItemCarrinho> itensCarrinho, List<ItemCarrinho> itensModel) {
+        if (itensCarrinho != null && !itensCarrinho.isEmpty() && itensModel != null && !itensModel.isEmpty()) {
+            List<ItemCarrinho> itensNovos = itensModel.stream().filter(itemModel -> itensCarrinho.stream()
+                            .noneMatch(itemCarrinho -> itemModel.getIdItem().equals(itemCarrinho.getIdItem())))
+                    .collect(Collectors.toList());
+            itensCarrinho.addAll(itensNovos);
+        }
+    }
+
+    private void validatesQuantityOfItems(List<ItemCarrinho> itensCarrinho){
+        if(itensCarrinho != null && !itensCarrinho.isEmpty()){
+            for(ItemCarrinho item : itensCarrinho){
+                var itemResponse = itemClient.findById(item.getIdItem()).getBody();
+                if(itemResponse != null){
+                    if(item.getQuantidade() > itemResponse.getQuantidade()){
+                        throw new BadRequestException("Quantidade invalida !");
+                    }
+                }else{
+                    throw new BadRequestException("Item not found");
+                }
+            }
+        }
+    }
+    private CarrinhoModel veryfyUserGenerateNewBuy(CarrinhoModel model, String email) {
+        var user = userClient.findByEmail(email).getBody();
+        if (user != null) {
+            var car = findByIdUsuario(user.getId());
+            model.setIdUsuario(user.getId());
+            if (car != null) {
+                model.setId(car.getId());
+            }
+            return model;
+        }
+        throw new BadRequestException("User not found");
     }
 }

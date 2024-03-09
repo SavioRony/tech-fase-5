@@ -1,5 +1,6 @@
 package br.com.fiap.pedido.service.serviceImpl;
 
+import br.com.fiap.pedido.exception.BadRequestException;
 import br.com.fiap.pedido.feignClients.CarrinhoFeignClient;
 import br.com.fiap.pedido.feignClients.ItemFeignClient;
 import br.com.fiap.pedido.feignClients.UserFeignClient;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 import java.util.stream.Collectors;
 
 
@@ -45,7 +47,7 @@ public class PedidoServiceImpl implements PedidoService {
         var user = userClient.findByEmail(email).getBody();
         if(user != null){
             var buy = carrinhoClient.findByUser(user.getEmail()).getBody();
-            if(buy != null){
+            if(buy != null && buy.getItems() != null && !buy.getItems().isEmpty()){
 
                 var modelToSave = generateModel(request,user);
 
@@ -54,16 +56,16 @@ public class PedidoServiceImpl implements PedidoService {
                 }
 
                 var response = repository.save(modelToSave);
-                updateListEstoque.forEach(x -> itemClient.updateEstoque(x.getId(),x));
+                updateListEstoque.forEach(x -> itemClient.update(x.getId(),x));
                 updateListEstoque.clear();
                 carrinhoClient.delete(user.getEmail());
                 return mapper.toDTO(response);
             }
 
-            return new PedidoDTO();
+            throw new BadRequestException("Não possui itens no carrinho!");
         }
 
-        throw new IllegalArgumentException("User not found");
+        throw new BadRequestException("User not found");
     }
 
     private void catchItemsInCar(List<ItemCarrinnhoDTO> items, PedidoModel modelToSave) {
@@ -90,7 +92,7 @@ public class PedidoServiceImpl implements PedidoService {
         var itemResponse = itemClient.findById(dto.getIdItem()).getBody();
         if(itemResponse != null){
             if(dto.getQuantidade() > itemResponse.getQuantidade()){
-                throw new IllegalArgumentException("Quantidade invalida !");
+                throw new BadRequestException("Quantidade invalida !");
             }
 
             dto.setSubTotal(BigDecimal.valueOf(dto.getQuantidade()).multiply(itemResponse.getValorUnitario()));
@@ -98,7 +100,7 @@ public class PedidoServiceImpl implements PedidoService {
             updateListEstoque.add(itemResponse);
 
         }else{
-            throw new IllegalArgumentException("Item not found");
+            throw new BadRequestException("Item not found");
         }
     }
 

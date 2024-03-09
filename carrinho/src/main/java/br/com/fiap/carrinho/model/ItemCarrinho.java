@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Data
 @Entity
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"idItem"})
 public class ItemCarrinho {
 
     @Id

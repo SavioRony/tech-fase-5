@@ -1,12 +1,10 @@
 package br.com.fiap.pedido.controller;
 
-import br.com.fiap.pedido.model.PedidoModel;
 import br.com.fiap.pedido.model.dto.PedidoDTO;
 import br.com.fiap.pedido.model.dto.PedidoRequestDTO;
 import br.com.fiap.pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

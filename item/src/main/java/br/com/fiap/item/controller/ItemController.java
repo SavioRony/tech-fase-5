@@ -1,6 +1,8 @@
 package br.com.fiap.item.controller;
 
+import br.com.fiap.item.mapper.ItemMapper;
 import br.com.fiap.item.model.ItemModel;
+import br.com.fiap.item.model.dto.ItemRequestDTO;
 import br.com.fiap.item.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ public class ItemController {
 
     @Autowired
     private ItemService service;
+    @Autowired
+    private ItemMapper mapper;
 
     @GetMapping("/all")
     ResponseEntity<List<ItemModel>> findAll (){
@@ -20,9 +24,8 @@ public class ItemController {
     }
 
     @PostMapping
-    ResponseEntity<ItemModel> create (@RequestBody ItemModel model, @RequestHeader("X-User-Email") String email){
-        System.out.println("EMAIl: " + email);
-        return ResponseEntity.ok(service.create(model));
+    ResponseEntity<ItemModel> create (@RequestBody ItemRequestDTO requestDTO, @RequestHeader("X-User-Email") String email){
+        return ResponseEntity.ok(service.create(mapper.toModel(requestDTO)));
     }
 
     @GetMapping("/{id}")
@@ -34,24 +37,9 @@ public class ItemController {
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<ItemModel> update (@PathVariable(name = "id")Long id, @RequestBody ItemModel model){
+    ResponseEntity<ItemModel> update (@PathVariable(name = "id")Long id, @RequestBody ItemRequestDTO requestDTO){
 
-        var response = service.update(model,id);
-
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
-    }
-
-    @PutMapping("/estoque/{id}")
-    ResponseEntity<?> updateEstoque(@PathVariable(name = "id")Long id, @RequestBody ItemModel model){
-
-        var response = service.updateEstoque(model, id);
-
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
-    }
-
-    @DeleteMapping("/{id}")
-    ResponseEntity<?> delete (@PathVariable(name = "id")Long id){
-        var response = service.delete(id);
+        var response = service.update(mapper.toModel(requestDTO),id);
 
         return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
     }

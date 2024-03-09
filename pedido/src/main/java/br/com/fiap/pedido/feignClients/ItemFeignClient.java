@@ -13,6 +13,6 @@ public interface ItemFeignClient {
     @GetMapping("/{id}")
     ResponseEntity<ItemDTO> findById(@RequestParam(name = "id") Long id);
 
-    @PutMapping("/estoque/{id}")
-    ResponseEntity<?> updateEstoque(@PathVariable(name = "id") Long id, @RequestBody ItemDTO model);
+    @PutMapping("/{id}")
+    ResponseEntity<ItemDTO> update (@PathVariable(name = "id")Long id, @RequestBody ItemDTO requestDTO);
 }

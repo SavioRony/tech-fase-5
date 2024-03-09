@@ -29,3 +29,7 @@ m
 =src/main/java/br/com/fiap/carrinho/mapper/CarrinhoMapper.java,8\d\8db5cbb737cd0bab3b9eafe5a567303d78a81c64
 m
 =src/main/java/br/com/fiap/carrinho/model/dto/CarrinhoDTO.java,9\0\90f38405ac353a17fd2b105333d51631da81a890
+t
+Dsrc/main/java/br/com/fiap/carrinho/handler/RestExceptionHandler.java,f\2\f2f15b678dc522cde77d590451f050ba557260ea
+u
+Esrc/main/java/br/com/fiap/carrinho/exception/BadRequestException.java,9\d\9d3654aee5516b37559caebc374f8d1fccd36d56
