@@ -24,7 +24,7 @@ public class PedidoController {
         return ResponseEntity.ok(service.create(request, email));
     }
 
-    @GetMapping("/all")
+    @GetMapping()
     ResponseEntity<List<PedidoDTO>> findAll(@RequestHeader("X-User-Email") String email){
         return ResponseEntity.ok(service.findAll(email));
     }
