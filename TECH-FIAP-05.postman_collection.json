@@ -1,0 +1,479 @@
+{
+	"info": {
+		"_postman_id": "96700a12-b632-4c75-bbbb-3656919f54ed",
+		"name": "TECH-FIAP-05",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14749225",
+		"_collection_link": "https://interstellar-shuttle-970740.postman.co/workspace/FIAP~a813c941-0386-4636-8ef7-17a557d584d3/collection/14749225-96700a12-b632-4c75-bbbb-3656919f54ed?action=share&source=collection_link&creator=14749225"
+	},
+	"item": [
+		{
+			"name": "API-GATEWAY",
+			"item": [
+				{
+					"name": "ADMIN",
+					"item": [
+						{
+							"name": "Item",
+							"item": [
+								{
+									"name": "Criar Item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "X-User-Email",
+												"value": "teste",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Teste 2\",\r\n  \"quantidade\": 5,\r\n  \"valorUnitario\": 1.00,\r\n  \"ativo\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url-gateway}}/item",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"item"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Alterar item",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "X-User-Email",
+												"value": "teste",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"valorUnitario\": 50.00,\r\n  \"ativo\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url-gateway}}/item/83",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"item",
+												"83"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Usuario",
+							"item": [
+								{
+									"name": "Buscar User por ID",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url-gateway}}/usuario/1",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"usuario",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar User por Email",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url-gateway}}/usuario/search?email=admin@gmail.com",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"usuario",
+												"search"
+											],
+											"query": [
+												{
+													"key": "email",
+													"value": "admin@gmail.com"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "PUBLIC",
+					"item": [
+						{
+							"name": "Login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"if (responseCode.code >= 200 && responseCode.code < 300) {\r",
+											"    var json = JSON.parse(responseBody);\r",
+											"    postman.setEnvironmentVariable('token', json.access_token);\r",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "techappsecret",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "techappname",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "username",
+											"value": "matheus@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456",
+											"type": "text"
+										},
+										{
+											"key": "grant_type",
+											"value": "password",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url-gateway}}/auth/oauth/token",
+									"host": [
+										"{{url-gateway}}"
+									],
+									"path": [
+										"auth",
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Criar Conta cliente",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Jose Xavier\",\r\n  \"email\": \"jose@gmail.com\",\r\n  \"password\": \"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url-gateway}}/usuario/client/register",
+									"host": [
+										"{{url-gateway}}"
+									],
+									"path": [
+										"usuario",
+										"client",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar Itens",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url-gateway}}/item/all",
+									"host": [
+										"{{url-gateway}}"
+									],
+									"path": [
+										"item",
+										"all"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "CLIENT_ADMIN",
+					"item": [
+						{
+							"name": "Carrinho",
+							"item": [
+								{
+									"name": "Adicionar Item Carrinho",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"items\": [\r\n    {\r\n      \"quantidade\": 1,\r\n      \"idItem\": 3\r\n    }\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url-gateway}}/carrinho",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"carrinho"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Remover Item Carrinho",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "PATCH",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"quantidade\": 4,\r\n    \"idItem\": 2\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url-gateway}}/carrinho",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"carrinho"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Buscar Carrinho usuario logado",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://localhost:8765/carrinho",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8765",
+											"path": [
+												"carrinho"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Pedido",
+							"item": [
+								{
+									"name": "Concluir pedido",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"formaPagamento\": \"PIX\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url-gateway}}/pedido",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"pedido"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Listar Pedidos",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url-gateway}}/pedido",
+											"host": [
+												"{{url-gateway}}"
+											],
+											"path": [
+												"pedido"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
