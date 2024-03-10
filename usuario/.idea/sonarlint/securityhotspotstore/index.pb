@@ -22,3 +22,7 @@ g
 :
 
 Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
+p
+@src/main/java/br/com/fiap/usuario/model/DatabaseInitializer.java,1\3\13b85a185329c8676bc2049e4de410e389a1e971
+p
+@src/main/java/br/com/fiap/usuario/repository/RoleRepository.java,e\2\e2aa11ad25bf10e57dee39f84df6f3f0d5cf19b4

@@ -1,43 +1,18 @@
 version: '3'
 
 services:
-  config-server:
-    container_name: config-server
-    build:
-      context: ./config-server
-      dockerfile: Dockerfile
-    image: config-server:v1
-    ports:
-      - "8888:8888"
-    networks:
-      - app-network
-
-  eureka-server:
-    container_name: eureka-server
-    build:
-      context: ./eureka-server
-      dockerfile: Dockerfile
-    image: eureka-server:v1
-    ports:
-      - "8761:8761"
-    depends_on:
-      - config-server
-    networks:
-      - app-network
-
   usuario:
     container_name: usuario
     build:
       context: ./usuario
       dockerfile: Dockerfile
     image: usuario:v1
-    depends_on:
-      - config-server
-      - eureka-server
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     networks:
-      - app-network
-    volumes:
-      - ./db/main/tech-fase-5/usuario:/app/db
+      - app-network     
 
   item:
     container_name: item
@@ -45,13 +20,12 @@ services:
       context: ./item
       dockerfile: Dockerfile
     image: item:v1
-    depends_on:
-      - config-server
-      - eureka-server
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     networks:
       - app-network
-    volumes:
-      - ./db/main/tech-fase-5/item:/app/db
 
   carrinho:
     container_name: carrinho
@@ -59,15 +33,15 @@ services:
       context: ./carrinho
       dockerfile: Dockerfile
     image: carrinho:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     depends_on:
-      - config-server
-      - eureka-server
       - item
       - usuario
     networks:
       - app-network
-    volumes:
-      - ./db/main/tech-fase-5/carrinho:/app/db
 
   pedido:
     container_name: pedido
@@ -75,28 +49,28 @@ services:
       context: ./pedido
       dockerfile: Dockerfile
     image: pedido:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     depends_on:
-      - config-server
-      - eureka-server
       - item
       - usuario
       - carrinho
     networks:
       - app-network
-    volumes:
-      - ./db/main/tech-fase-5/pedido:/app/db
-  
+
   api-gateway:
     container_name: api-gateway
     build:
       context: ./api-gateway
       dockerfile: Dockerfile
     image: api-gateway:v1
+    environment:
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     ports:
       - "8765:8765"
-    depends_on:
-      - config-server
-      - eureka-server
     restart: on-failure
     networks:
       - app-network
@@ -107,9 +81,9 @@ services:
       context: ./auth
       dockerfile: Dockerfile
     image: auth:v1
-    depends_on:
-      - config-server
-      - eureka-server
+    environment:
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
     restart: on-failure
     networks:
       - app-network

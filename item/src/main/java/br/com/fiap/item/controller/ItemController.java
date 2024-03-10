@@ -34,7 +34,7 @@ public class ItemController {
 
         var response = service.findById(id);
 
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
@@ -42,6 +42,6 @@ public class ItemController {
 
         var response = service.update(mapper.toModel(requestDTO),id);
 
-        return response != null ? ResponseEntity.ok(response) : ResponseEntity.notFound().build();
+        return response != null ? ResponseEntity.ok(response) : ResponseEntity.noContent().build();
     }
 }

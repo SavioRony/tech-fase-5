@@ -15,3 +15,11 @@
         echo ""
     fi
     done
+    cd ..
+    echo "Iniciando os containers docker-compose de Infra"
+    docker-compose -f docker-compose-infra.yml up -d
+
+    sleep 30
+    
+    echo "Iniciando os containers docker-compose dos serviços"
+    docker-compose -f docker-compose-servicos.yml up -d
