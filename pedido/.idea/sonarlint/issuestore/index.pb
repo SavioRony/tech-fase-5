@@ -43,3 +43,5 @@ p
 @src/main/java/br/com/fiap/pedido/model/dto/PedidoRequestDTO.java,6\3\635c578e064b9a6b87bc090ee15be3b54c192c0f
 r
 Bsrc/main/java/br/com/fiap/pedido/handler/RestExceptionHandler.java,7\9\7995ae8dddce967f5f3517e3be89ce8a90ac352b
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e

@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+  usuario:
+    container_name: usuario
+    build:
+      context: ./usuario
+      dockerfile: Dockerfile
+    image: usuario:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    networks:
+      - app-network     
+
+  item:
+    container_name: item
+    build:
+      context: ./item
+      dockerfile: Dockerfile
+    image: item:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    networks:
+      - app-network
+
+  carrinho:
+    container_name: carrinho
+    build:
+      context: ./carrinho
+      dockerfile: Dockerfile
+    image: carrinho:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - item
+      - usuario
+    networks:
+      - app-network
+
+  pedido:
+    container_name: pedido
+    build:
+      context: ./pedido
+      dockerfile: Dockerfile
+    image: pedido:v1
+    environment:
+      PROFILE: prod
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    depends_on:
+      - item
+      - usuario
+      - carrinho
+    networks:
+      - app-network
+
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    image: api-gateway:v1
+    environment:
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    ports:
+      - "8765:8765"
+    restart: on-failure
+    networks:
+      - app-network
+
+  auth:
+    container_name: auth
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    image: auth:v1
+    environment:
+      CONFIG-SERVER: http://config-server:8888
+      EUREKA-SERVER: http://eureka-server:8761/eureka
+    restart: on-failure
+    networks:
+      - app-network
+
+networks: 
+  app-network:
+    driver: bridge

@@ -19,3 +19,10 @@ j
 :src/main/java/br/com/fiap/usuario/service/UserService.java,2\4\24835124cfcad9ab3e22324e4fb745fc76c2fbbb
 g
 7src/main/java/br/com/fiap/usuario/config/AppConfig.java,1\6\165d0a2d21d6e00049695257e883204a565c8387
+:
+
+Dockerfile,6\6\6651ddff6eb82c840ced7c1dddee15c6e1913dd4
+p
+@src/main/java/br/com/fiap/usuario/model/DatabaseInitializer.java,1\3\13b85a185329c8676bc2049e4de410e389a1e971
+p
+@src/main/java/br/com/fiap/usuario/repository/RoleRepository.java,e\2\e2aa11ad25bf10e57dee39f84df6f3f0d5cf19b4
